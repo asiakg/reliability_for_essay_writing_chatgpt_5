@@ -1,0 +1,77 @@
+#RQ2: Deep think T1 x Ef Mode T1
+
+
+#Spearman
+#R Code:
+
+#load packages
+library(irr)
+library(tidyverse)
+library(psych)
+
+df <- read_csv('ELI_Dec_9.csv')
+
+# Select only the rater columns
+rater_data <- df[, c("ChatGPT_5_Ex_Think_T1", "ChatGPT_5_Ef_Mode_T1")]  
+
+#change variables to numeric
+rater_data <- rater_data %>% mutate(across(everything(), as.numeric))
+
+df_spearman <- df %>% 
+  select(ChatGPT_5_Ex_Think_T1, ChatGPT_5_Ef_Mode_T1)
+
+df_spearman <- df_spearman %>%
+  mutate(
+    ChatGPT_5_Ex_Think_T1 = as.numeric(ChatGPT_5_Ex_Think_T1),
+    ChatGPT_5_Ef_Mode_T1 = as.numeric(ChatGPT_5_Ef_Mode_T1)
+  )
+#run spearman
+cor.test(df_spearman$ChatGPT_5_Ex_Think_T1, df_spearman$ChatGPT_5_Ef_Mode_T1, method = "spearman", exact = FALSE)
+
+
+#QWK
+#R Code:
+
+library(tidyverse)
+library(psych)
+
+df <- read_csv('ELI_Dec_9.csv')
+
+# Select only the rater columns
+rater_data <- df[, c("ChatGPT_5_Ex_Think_T1","ChatGPT_5_Ef_Mode_T1")]  
+
+#change variables to numeric
+rater_data <- rater_data %>% mutate(across(everything(), as.numeric))
+
+#QWK
+cohen.kappa(cbind(df$ChatGPT_5_Ex_Think_T1, df$ChatGPT_5_Ef_Mode_T1))
+
+
+#Percent Agreement
+#R Code
+library(tidyverse)
+library(psych)
+
+df <- read_csv('ELI_Dec_9.csv')
+
+# Select only the rater columns
+rater_data <- df[, c("ChatGPT_5_Ex_Think_T1","ChatGPT_5_Ef_Mode_T1")]  
+
+#change variables to numeric
+rater_data <- rater_data %>% mutate(across(everything(), as.numeric))
+
+#Agreement
+df %>% 
+  mutate(agree = case_when(
+    ChatGPT_5_Ex_Think_T1 == ChatGPT_5_Ef_Mode_T1 ~ 1,
+    ChatGPT_5_Ex_Think_T1 != ChatGPT_5_Ef_Mode_T1 ~ 0,
+    TRUE ~ NA_real_
+  )) %>%
+  summarise(agree_rate = mean(agree, na.rm = TRUE))
+
+colSums(is.na(df[, c("ChatGPT_5_Ex_Think_T1", "ChatGPT_5_Ef_Mode_T1")]))
+
+
+
+
+
