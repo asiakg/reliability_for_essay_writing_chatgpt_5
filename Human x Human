@@ -1,0 +1,71 @@
+#Human x Human Rating
+#Spearman 
+#R code
+#load packages
+library(irr)
+library(tidyverse)
+library(psych)
+
+df <- read_csv('ELI_Dec_9.csv')
+
+# Select only the rater columns
+rater_data <- df[, c("Human_Shannon", "Human_Asia")]  
+
+#change variables to numeric
+rater_data <- rater_data %>% mutate(across(everything(), as.numeric))
+
+df_spearman <- df %>% 
+  select(Human_Shannon, Human_Asia)
+
+df_spearman <- df_spearman %>%
+  mutate(
+    Human_Shannon = as.numeric(Human_Shannon),
+    Human_Asia = as.numeric(Human_Asia)
+  )
+
+cor.test(df_spearman$Human_Shannon, df_spearman$Human_Asia, method = "spearman", exact = FALSE)
+
+
+#QWK
+#R code:
+library(tidyverse)
+library(psych)
+
+df <- read_csv('ELI_Dec_9.csv')
+
+# Select only the rater columns
+rater_data <- df[, c("Human_Shannon","Human_Asia")]  
+
+#change variables to numeric
+rater_data <- rater_data %>% mutate(across(everything(), as.numeric))
+
+#QWK
+cohen.kappa(cbind(df$Human_Shannon, df$Human_Asia))
+
+
+
+#Agreement:
+#R Code
+library(tidyverse)
+library(psych)
+df <- read_csv('ELI_Dec_9.csv')
+
+# Select only the rater columns
+rater_data <- df[, c("Human_Shannon","Human_Asia")]  
+
+#change variables to numeric
+rater_data <- rater_data %>% mutate(across(everything(), as.numeric))
+
+#Agreement
+df %>% 
+  mutate(agree = case_when(
+    Human_Shannon == Human_Asia ~ 1,
+    Human_Shannon != Human_Asia ~ 0,
+    TRUE ~ NA_real_
+  )) %>%
+  summarise(agree_rate = mean(agree, na.rm = TRUE))
+
+colSums(is.na(df[, c("Human_Shannon", "Human_Asia")]))
+
+
+
