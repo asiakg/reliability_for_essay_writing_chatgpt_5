@@ -1,0 +1,145 @@
+#RQ1: GPT models x Human Standard
+
+
+
+#ChatGPT-5 Efficient Mode x Human Standard
+#Spearman
+#R Code
+#load packages
+library(irr)
+library(tidyverse)
+library(psych)
+
+df <- read_csv('ELI_Dec_9.csv')
+
+# Select only the rater columns
+rater_data <- df[, c("ChatGPT_5_Ef_Mode_T1", "Human_Gold_Stand")]  
+
+#change variables to numeric
+rater_data <- rater_data %>% mutate(across(everything(), as.numeric))
+
+df_spearman <- df %>% 
+  select(ChatGPT_5_Ef_Mode_T1, Human_Gold_Stand)
+
+df_spearman <- df_spearman %>%
+  mutate(
+    ChatGPT_5_Ef_Mode_T1 = as.numeric(ChatGPT_5_Ef_Mode_T1),
+    Human_Gold_Stand = as.numeric(Human_Gold_Stand)
+  )
+
+cor.test(df_spearman$ChatGPT_5_Ef_Mode_T1, df_spearman$Human_Gold_Stand, method = "spearman", exact = FALSE)
+
+#QWK
+#R Code
+library(tidyverse)
+library(psych)
+
+df <- read_csv('ELI_Dec_9.csv')
+
+# Select only the rater columns
+rater_data <- df[, c("ChatGPT_5_Ef_Mode_T1","Human_Gold_Stand")]  
+
+#change variables to numeric
+rater_data <- rater_data %>% mutate(across(everything(), as.numeric))
+
+#QWK
+cohen.kappa(cbind(df$ChatGPT_5_Ef_Mode_T1, df$Human_Gold_Stand))
+
+
+
+#Agreement
+#R Code
+library(tidyverse)
+library(psych)
+df <- read_csv('ELI_Dec_9.csv')
+
+# Select only the rater columns
+rater_data <- df[, c("ChatGPT_5_Ef_Mode_T1","Human_Gold_Stand")]  
+
+#change variables to numeric
+rater_data <- rater_data %>% mutate(across(everything(), as.numeric))
+
+#Agreement
+df %>% 
+  mutate(agree = case_when(
+    ChatGPT_5_Ef_Mode_T1 == Human_Gold_Stand ~ 1,
+    ChatGPT_5_Ef_Mode_T1 != Human_Gold_Stand ~ 0,
+    TRUE ~ NA_real_
+  )) %>%
+  summarise(agree_rate = mean(agree, na.rm = TRUE))
+
+colSums(is.na(df[, c("ChatGPT_5_Ef_Mode_T1", "Human_Gold_Stand")]))
+
+
+
+#ChatGPT-5 Deep Thinking x Human Standard
+#Spearman
+#R Code
+#load packages
+library(irr)
+library(tidyverse)
+library(psych)
+
+df <- read_csv('ELI_Dec_9.csv')
+
+# Select only the rater columns
+rater_data <- df[, c("ChatGPT_5_Ex_Think_T1", "Human_Gold_Stand")]  
+
+#change variables to numeric
+rater_data <- rater_data %>% mutate(across(everything(), as.numeric))
+
+df_spearman <- df %>% 
+  select(ChatGPT_5_Ex_Think_T1, Human_Gold_Stand)
+
+df_spearman <- df_spearman %>%
+  mutate(
+    ChatGPT_5_Ex_Think_T1 = as.numeric(ChatGPT_5_Ex_Think_T1),
+    Human_Gold_Stand = as.numeric(Human_Gold_Stand)
+  )
+
+cor.test(df_spearman$ChatGPT_5_Ex_Think_T1, df_spearman$Human_Gold_Stand, method = "spearman", exact = FALSE)
+
+
+
+#QWK
+#R Code
+library(tidyverse)
+library(psych)
+
+df <- read_csv('ELI_Dec_9.csv')
+
+# Select only the rater columns
+rater_data <- df[, c("ChatGPT_5_Ex_Think_T1","Human_Gold_Stand")]  
+
+#change variables to numeric
+rater_data <- rater_data %>% mutate(across(everything(), as.numeric))
+
+#QWK
+cohen.kappa(cbind(df$ChatGPT_5_Ex_Think_T1, df$Human_Gold_Stand))
+
+
+#Agreement
+#R Code
+library(tidyverse)
+library(psych)
+df <- read_csv('ELI_Dec_9.csv')
+
+# Select only the rater columns
+rater_data <- df[, c("ChatGPT_5_Ex_Think_T1","Human_Gold_Stand")]  
+
+#change variables to numeric
+rater_data <- rater_data %>% mutate(across(everything(), as.numeric))
+
+#Agreement
+df %>% 
+  mutate(agree = case_when(
+    ChatGPT_5_Ex_Think_T1 == Human_Gold_Stand ~ 1,
+    ChatGPT_5_Ex_Think_T1 != Human_Gold_Stand ~ 0,
+    TRUE ~ NA_real_
+  )) %>%
+  summarise(agree_rate = mean(agree, na.rm = TRUE))
+
+colSums(is.na(df[, c("ChatGPT_5_Ex_Think_T1", "Human_Gold_Stand")]))
+
+
+
